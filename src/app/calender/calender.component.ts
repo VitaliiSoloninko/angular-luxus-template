@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
@@ -9,7 +10,7 @@ import { DateTime, Info, Interval } from 'luxon';
 
 @Component({
   selector: 'app-calender',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './calender.component.html',
   styleUrl: './calender.component.scss',
 })
