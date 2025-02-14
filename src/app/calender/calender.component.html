@@ -39,5 +39,13 @@
       <div>Please select a day</div>
       }
     </div>
+    <div>
+      @if (activeDay() && activeDayMeetings().length === 0) {
+      <div>No Planned Meetings today</div>
+      } @if (activeDay() && activeDayMeetings().length > 0) { @for (meeting of
+      activeDayMeetings(); track $index) {
+      <div>{{ meeting }}</div>
+      } }
+    </div>
   </div>
 </div>

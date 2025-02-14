@@ -40,6 +40,18 @@ export class CalenderComponent {
   });
   DATE_MED = DateTime.DATE_MED;
 
+  activeDayMeetings: Signal<string[]> = computed(() => {
+    const activeDay = this.activeDay();
+    if (activeDay === null) {
+      return [];
+    }
+    const activeDayISO = activeDay.toISODate();
+    if (!activeDayISO) {
+      return [];
+    }
+    return this.meetings()[activeDayISO] ?? [];
+  });
+
   constructor() {
     console.log(this.daysOfMonth());
   }
