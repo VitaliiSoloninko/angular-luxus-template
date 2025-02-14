@@ -10,4 +10,13 @@ import { CalenderComponent } from './calender/calender.component';
 })
 export class AppComponent {
   title = 'angular-luxus-template';
+
+  meetings = {
+    '2025-02-13': ['Meeting 1', 'Meeting 2'],
+    '2025-02-14': ['Meeting 3', 'Meeting 4'],
+    '2025-02-15': ['Meeting 5', 'Meeting 6'],
+    '2025-02-16': ['Meeting 7', 'Meeting 8'],
+    '2025-02-17': ['Meeting 9', 'Meeting 10'],
+    '2025-02-18': ['Meeting 11', 'Meeting 12'],
+  };
 }

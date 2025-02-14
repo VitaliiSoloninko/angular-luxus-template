@@ -2,11 +2,14 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   computed,
+  input,
+  InputSignal,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { DateTime, Info, Interval } from 'luxon';
+import { Meetings } from './meetings.interface';
 
 @Component({
   selector: 'app-calender',
@@ -15,10 +18,12 @@ import { DateTime, Info, Interval } from 'luxon';
   styleUrl: './calender.component.scss',
 })
 export class CalenderComponent {
+  meetings: InputSignal<Meetings> = input.required();
   today: Signal<DateTime> = signal(DateTime.local());
   firstDayOfActiveMonth: WritableSignal<DateTime> = signal(
     this.today().startOf('month')
   );
+  activeDay: WritableSignal<DateTime | null> = signal(null);
   weekDays: Signal<string[]> = signal(Info.weekdays('short'));
   daysOfMonth: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
@@ -33,6 +38,7 @@ export class CalenderComponent {
         return day.start;
       });
   });
+  DATE_MED = DateTime.DATE_MED;
 
   constructor() {
     console.log(this.daysOfMonth());
