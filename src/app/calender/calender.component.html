@@ -6,11 +6,16 @@
         {{ firstDayOfActiveMonth().year }}
       </div>
       <div class="calendar-headline-controls">
-        <div class="calendar-headline-control">←</div>
-        <div class="calendar-headline-control calendar-headline-control-ещвфн">
+        <div class="calendar-headline-control" (click)="goToPreviousMonth()">
+          ←
+        </div>
+        <div
+          class="calendar-headline-control calendar-headline-control"
+          (click)="goToToday()"
+        >
           Today
         </div>
-        <div class="calendar-headline-control">→</div>
+        <div class="calendar-headline-control" (click)="goToNextMonth()">→</div>
       </div>
     </div>
     <div class="calendar-weeks-grid">

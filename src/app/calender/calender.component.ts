@@ -40,6 +40,10 @@ export class CalenderComponent {
   });
   DATE_MED = DateTime.DATE_MED;
 
+  constructor() {
+    console.log(this.daysOfMonth());
+  }
+
   activeDayMeetings: Signal<string[]> = computed(() => {
     const activeDay = this.activeDay();
     if (activeDay === null) {
@@ -52,7 +56,18 @@ export class CalenderComponent {
     return this.meetings()[activeDayISO] ?? [];
   });
 
-  constructor() {
-    console.log(this.daysOfMonth());
+  goToPreviousMonth(): void {
+    this.firstDayOfActiveMonth.set(
+      this.firstDayOfActiveMonth().minus({ months: 1 })
+    );
+  }
+
+  goToNextMonth(): void {
+    this.firstDayOfActiveMonth.set(
+      this.firstDayOfActiveMonth().plus({ months: 1 })
+    );
+  }
+  goToToday(): void {
+    this.firstDayOfActiveMonth.set(this.today().startOf('month'));
   }
 }
