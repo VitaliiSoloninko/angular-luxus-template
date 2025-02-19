@@ -19,31 +19,23 @@ import { Meetings } from '../meetings.interface';
 })
 export class WeeksCalenderComponent {
   meetings: InputSignal<Meetings> = input.required();
-  today: Signal<DateTime> = signal(DateTime.local());
-  firstDayOfActiveMonth: WritableSignal<DateTime> = signal(
-    this.today().startOf('month')
+
+  today: Signal<DateTime> = signal(
+    DateTime.local({
+      zone: 'Europe/Berlin',
+      locale: 'de',
+    })
   );
   activeDay: WritableSignal<DateTime | null> = signal(null);
-  weekDays: Signal<string[]> = signal(Info.weekdays('short'));
-  daysOfMonth: Signal<DateTime[]> = computed(() => {
-    return Interval.fromDateTimes(
-      this.firstDayOfActiveMonth().startOf('month'),
-      this.firstDayOfActiveMonth().endOf('month').endOf('week')
-    )
-      .splitBy({ days: 1 })
-      .map((day) => {
-        if (day.start === null) {
-          throw new Error('Wrong day');
-        }
-        return day.start;
-      });
-  });
-  DATE_MED = DateTime.DATE_MED;
+  weekDays: Signal<string[]> = signal(Info.weekdays('short', { locale: 'de' }));
+  firstDayOfActiveWeek: WritableSignal<DateTime> = signal(
+    this.today().startOf('week')
+  );
 
   daysOfWeek: Signal<DateTime[]> = computed(() => {
     return Interval.fromDateTimes(
-      this.firstDayOfActiveMonth().startOf('week'),
-      this.firstDayOfActiveMonth().endOf('week')
+      this.firstDayOfActiveWeek().startOf('week'),
+      this.firstDayOfActiveWeek().endOf('week')
     )
       .splitBy({ days: 1 })
       .map((day) => {
@@ -53,6 +45,8 @@ export class WeeksCalenderComponent {
         return day.start;
       });
   });
+
+  DATE_MED = DateTime.DATE_MED;
 
   constructor() {
     console.log(this.daysOfWeek());
@@ -71,16 +65,16 @@ export class WeeksCalenderComponent {
   });
 
   goToPreviousWeek(): void {
-    this.firstDayOfActiveMonth.set(
-      this.firstDayOfActiveMonth().minus({ weeks: 1 })
+    this.firstDayOfActiveWeek.set(
+      this.firstDayOfActiveWeek().minus({ weeks: 1 })
     );
   }
   goToNextWeek(): void {
-    this.firstDayOfActiveMonth.set(
-      this.firstDayOfActiveMonth().plus({ weeks: 1 })
+    this.firstDayOfActiveWeek.set(
+      this.firstDayOfActiveWeek().plus({ weeks: 1 })
     );
   }
   goToToday(): void {
-    this.firstDayOfActiveMonth.set(this.today().startOf('month'));
+    this.firstDayOfActiveWeek.set(this.today().startOf('week'));
   }
 }
